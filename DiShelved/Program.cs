@@ -3,11 +3,10 @@ using DiShelved.Data;
 using DiShelved.Models;
 using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
-// using DiShelved.Interfaces;
-// using DiShelved.Repositories;
-// using DiShelved.Services;
-// using DiShelved.Endpoints;
-// using DiShelved.EndPoints;
+using DiShelved.Interfaces;
+using DiShelved.Repositories;
+using DiShelved.Services;
+using DiShelved.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,8 +43,8 @@ builder.Services.AddCors(options =>
 // builder.Services.AddScoped<IItemService, ItemService>();
 // builder.Services.AddScoped<IItemCategoryRepository, ItemCategoryRepository>();
 // builder.Services.AddScoped<IItemCategoryService, ItemCategoryService>();
-// builder.Services.AddScoped<ILocationRepository, LocationRepository>();
-// builder.Services.AddScoped<ILocationService, LocationService>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<ILocationService, LocationService>();
 // builder.Services.AddScoped<IUserRepository, UserRepository>();
 // builder.Services.AddScoped<IUserService, UserService>();
 
@@ -81,7 +80,7 @@ app.UseHttpsRedirection();
 // app.MapContainerEndpoints();
 // app.MapItemEndpoints();
 // app.MapItemCategoryEndpoints();
-// app.MapLocationEndpoints();
+app.MapLocationEndpoints();
 // app.MapUserEndpoints();
 
 
