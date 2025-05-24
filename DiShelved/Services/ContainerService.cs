@@ -1,5 +1,6 @@
 ﻿using DiShelved.Models;
 using DiShelved.Interfaces;
+using System.Net;
 
 namespace DiShelved.Services
 {
@@ -12,7 +13,7 @@ namespace DiShelved.Services
         {
             if (id <= 0)
             {
-            throw new ArgumentException("Invalid Container Id", nameof(id));
+                throw new ArgumentException("Invalid Container Id", nameof(id));
             }
             var Container = await _ContainerRepository.GetContainerByIdAsync(id);
             if (Container == null)
@@ -75,6 +76,17 @@ namespace DiShelved.Services
             }
 
             return deleted;
+        }
+
+        public async Task<IEnumerable<Container>> GetContainersByLocationIdAsync(int locationId)
+        {
+            if (locationId <= 0)
+            {
+                throw new ArgumentException("Invalid Location Id", nameof(locationId));
+            }
+            var containers = await _ContainerRepository.GetContainersByLocationIdAsync(locationId);
+            // If no containers are found, return an empty list instead of null.
+            return containers ?? Enumerable.Empty<Container>();
         }
     }
 }

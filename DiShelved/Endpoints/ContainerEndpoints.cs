@@ -28,7 +28,7 @@ public static class ContainerEndpoints
         // Create Container
         routes.MapPost("/Containers", async (Container Container, IContainerService repo) =>
         {
-            var createdContainer = await repo.CreateContainerAsync(Container); 
+            var createdContainer = await repo.CreateContainerAsync(Container);
             return Results.Created($"/api/Containers/{createdContainer.Id}", createdContainer);
         })
         .WithName("CreateContainer")
@@ -49,10 +49,22 @@ public static class ContainerEndpoints
         {
             var deletion = await repo.DeleteContainerAsync(id);
             return deletion ? Results.NoContent() : Results.NotFound();
-            
+
         })
         .WithName("DeleteContainer")
         .Produces(StatusCodes.Status204NoContent)
+        .Produces(StatusCodes.Status404NotFound);
+
+        
+
+        // Get Containers By Location Id
+        routes.MapGet("/Containers/Location/{locationId}", async (int locationId, IContainerService repo) =>
+        {
+            var containers = await repo.GetContainersByLocationIdAsync(locationId);
+            return containers is not null ? Results.Ok(containers) : Results.NotFound();
+        })
+        .WithName("GetContainersByLocationId")
+        .Produces<List<Container>>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
     }
 }

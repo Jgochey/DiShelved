@@ -62,5 +62,15 @@ namespace DiShelved.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+    public Task<IEnumerable<Container>> GetContainersByLocationIdAsync(int locationId)
+    {
+        if (locationId <= 0)
+        {
+            return Task.FromResult<IEnumerable<Container>>(new List<Container>());
+        }
+        var containers = _context.Containers.Where(c => c.LocationId == locationId);
+        return Task.FromResult<IEnumerable<Container>>(containers.ToList());
   }
+}
 }

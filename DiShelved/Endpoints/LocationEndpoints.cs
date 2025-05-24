@@ -45,11 +45,20 @@ public static class LocationEndpoints
         .Produces(StatusCodes.Status404NotFound);
 
         // Delete Location
-        routes.MapDelete("/Locations/{id}", async (int id, ILocationService repo) =>
+        routes.MapDelete("/Locations/{id}", async (
+            int id, 
+            ILocationService locationService, 
+            IContainerService containerService) =>
         {
-            var deletion = await repo.DeleteLocationAsync(id);
+            // Check if the location has any Containers associated with it
+            var containers = await containerService.GetContainersByLocationIdAsync(id);
+            if (containers.Any())
+            {
+                return Results.Problem("Location has Containers associated with it. Remove any Containers before deleting the Location.");
+            }
+
+            var deletion = await locationService.DeleteLocationAsync(id);
             return deletion ? Results.NoContent() : Results.NotFound();
-            
         })
         .WithName("DeleteLocation")
         .Produces(StatusCodes.Status204NoContent)
