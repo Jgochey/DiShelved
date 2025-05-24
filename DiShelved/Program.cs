@@ -35,8 +35,8 @@ builder.Services.AddCors(options =>
 });
 
 //Builder services for future repository pattern use
-// builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-// builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IContainerRepository, ContainerRepository>();
 builder.Services.AddScoped<IContainerService, ContainerService>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
@@ -76,7 +76,7 @@ app.UseCors();
 app.UseHttpsRedirection();
 
 // To be implemented later alongside the Endpoints
-// app.MapCategoryEndpoints();
+app.MapCategoryEndpoints();
 app.MapContainerEndpoints();
 app.MapItemEndpoints();
 // app.MapItemCategoryEndpoints();
