@@ -1,0 +1,13 @@
+﻿using DiShelved.Models;
+
+namespace DiShelved.Interfaces
+{
+    public interface IItemRepository
+    {
+        Task<IEnumerable<Item>> GetAllItemsAsync();
+        Task<Item> GetItemByIdAsync(int id);
+        Task<Item> CreateItemAsync(Item Item);
+        Task<Item> UpdateItemAsync(int id, Item Item);
+        Task<bool> DeleteItemAsync(int id);
+    }
+}
