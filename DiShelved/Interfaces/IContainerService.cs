@@ -10,5 +10,7 @@ namespace DiShelved.Interfaces
         Task<Container> CreateContainerAsync(Container Container);
         Task<Container> UpdateContainerAsync(int Id, Container Container);
         Task<bool> DeleteContainerAsync(int id);
+
+        Task<IEnumerable<Container>> GetContainersByLocationIdAsync(int locationId);
     }
 }
