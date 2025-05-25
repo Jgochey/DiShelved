@@ -45,8 +45,8 @@ builder.Services.AddScoped<IItemService, ItemService>();
 // builder.Services.AddScoped<IItemCategoryService, ItemCategoryService>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<ILocationService, LocationService>();
-// builder.Services.AddScoped<IUserRepository, UserRepository>();
-// builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // Temp
 // allows passing datetimes without time zone data 
@@ -81,7 +81,7 @@ app.MapContainerEndpoints();
 app.MapItemEndpoints();
 // app.MapItemCategoryEndpoints();
 app.MapLocationEndpoints();
-// app.MapUserEndpoints();
+app.MapUserEndpoints();
 
 
 app.Run();
