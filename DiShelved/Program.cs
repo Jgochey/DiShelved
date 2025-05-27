@@ -34,15 +34,15 @@ builder.Services.AddCors(options =>
     });
 });
 
-//Builder services for future repository pattern use
+//Builder services for repository pattern
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IContainerRepository, ContainerRepository>();
 builder.Services.AddScoped<IContainerService, ContainerService>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IItemService, ItemService>();
-// builder.Services.AddScoped<IItemCategoryRepository, ItemCategoryRepository>();
-// builder.Services.AddScoped<IItemCategoryService, ItemCategoryService>();
+builder.Services.AddScoped<IItemCategoryRepository, ItemCategoryRepository>();
+builder.Services.AddScoped<IItemCategoryService, ItemCategoryService>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -75,11 +75,10 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 app.UseHttpsRedirection();
 
-// To be implemented later alongside the Endpoints
 app.MapCategoryEndpoints();
 app.MapContainerEndpoints();
 app.MapItemEndpoints();
-// app.MapItemCategoryEndpoints();
+app.MapItemCategoryEndpoints();
 app.MapLocationEndpoints();
 app.MapUserEndpoints();
 
