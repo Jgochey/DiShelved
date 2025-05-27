@@ -9,5 +9,7 @@ namespace DiShelved.Interfaces
         Task<Item> CreateItemAsync(Item Item);
         Task<Item> UpdateItemAsync(int id, Item Item);
         Task<bool> DeleteItemAsync(int id);
+
+        Task<IEnumerable<Item>> GetItemsByContainerIdAsync(int containerId);
     }
 }
