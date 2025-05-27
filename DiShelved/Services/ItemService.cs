@@ -1,5 +1,6 @@
 ﻿using DiShelved.Models;
 using DiShelved.Interfaces;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DiShelved.Services
 {
@@ -12,7 +13,7 @@ namespace DiShelved.Services
         {
             if (id <= 0)
             {
-            throw new ArgumentException("Invalid Item Id", nameof(id));
+                throw new ArgumentException("Invalid Item Id", nameof(id));
             }
             var Item = await _ItemRepository.GetItemByIdAsync(id);
             if (Item == null)
@@ -75,6 +76,19 @@ namespace DiShelved.Services
             }
 
             return deleted;
+        }
+        public async Task<IEnumerable<Item>> GetItemsByContainerIdAsync(int containerId)
+        {
+            if (containerId <= 0)
+            {
+                throw new ArgumentException("Invalid Container Id", nameof(containerId));
+            }
+            var items = await _ItemRepository.GetItemsByContainerIdAsync(containerId);
+            if (items == null || !items.Any())
+            {
+                throw new InvalidOperationException("No Items Found for the specified Container");
+            }
+            return items;
         }
     }
 }

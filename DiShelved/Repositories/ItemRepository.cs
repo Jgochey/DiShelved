@@ -9,7 +9,7 @@ namespace DiShelved.Repositories
     {
         private readonly DiShelvedDbContext _context;
         public ItemRepository(DiShelvedDbContext context) => _context = context;
-       
+
         public async Task<IEnumerable<Item>> GetAllItemsAsync()
         {
             return await _context.Items.ToListAsync();
@@ -64,5 +64,14 @@ namespace DiShelved.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
-  }
+
+        public Task<IEnumerable<Item>> GetItemsByContainerIdAsync(int containerId)
+        {
+            if (containerId <= 0)
+            {
+                return Task.FromResult<IEnumerable<Item>>(new List<Item>());
+            }
+            return _context.Items.Where(i => i.ContainerId == containerId).ToListAsync().ContinueWith(task => (IEnumerable<Item>)task.Result);
+        }
+    }
 }

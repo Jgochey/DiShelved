@@ -1,5 +1,6 @@
 ﻿using DiShelved.Interfaces;
 using DiShelved.Models;
+using DiShelved.Services;
 
 namespace DiShelved.Endpoints;
 
@@ -45,8 +46,14 @@ public static class ContainerEndpoints
         .Produces(StatusCodes.Status404NotFound);
 
         // Delete Container
-        routes.MapDelete("/Containers/{id}", async (int id, IContainerService repo) =>
+        routes.MapDelete("/Containers/{id}", async (int id, IContainerService repo, IItemService itemService) =>
         {
+            var items = await itemService.GetItemsByContainerIdAsync(id);
+            if (items.Any())
+            {
+                return Results.Problem("Container has Items associated with it. Remove any Items before deleting the Container.");
+            }
+
             var deletion = await repo.DeleteContainerAsync(id);
             return deletion ? Results.NoContent() : Results.NotFound();
 
