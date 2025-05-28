@@ -84,11 +84,8 @@ namespace DiShelved.Services
                 throw new ArgumentException("Invalid Container Id", nameof(containerId));
             }
             var items = await _ItemRepository.GetItemsByContainerIdAsync(containerId);
-            if (items == null || !items.Any())
-            {
-                throw new InvalidOperationException("No Items Found for the specified Container");
-            }
-            return items;
+
+            return items ?? Enumerable.Empty<Item>();
         }
     }
 }
