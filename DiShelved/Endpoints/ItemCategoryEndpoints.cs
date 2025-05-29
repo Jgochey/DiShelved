@@ -29,7 +29,17 @@ public static class ItemCategoryEndpoints
         .WithName("DeleteItemCategory")
         .Produces(StatusCodes.Status204NoContent)
         .Produces(StatusCodes.Status404NotFound);
-        
+
+        // Get ItemCategory By Id
+        routes.MapGet("/ItemCategory/{itemId}/{categoryId}", async (int itemId, int categoryId, IItemCategoryService repo) =>
+        {
+            var itemCategory = await repo.GetItemCategoryByIdAsync(itemId, categoryId);
+            return itemCategory is not null ? Results.Ok(itemCategory) : Results.NotFound();
+        })
+         .WithName("GetItemCategoryById")
+         .Produces<ItemCategory>(StatusCodes.Status200OK)
+         .Produces(StatusCodes.Status404NotFound);
+
         // Update ItemCategory
         // routes.MapPut("/ItemCategory/{itemId}/{categoryId}", async (int itemId, int categoryId, ItemCategory itemCategory, IItemCategoryService repo) =>
         // {

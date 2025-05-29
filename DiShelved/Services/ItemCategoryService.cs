@@ -24,6 +24,8 @@ namespace DiShelved.Services
 
         public async Task<bool> DeleteItemCategoryAsync(int itemId, int categoryId)
         {
+            var itemCategory = await _ItemCategoryRepository.GetItemCategoryByIdAsync(itemId, categoryId);
+
             if (itemId <= 0)
             {
                 throw new ArgumentException("Invalid Item Id", nameof(itemId));
@@ -32,6 +34,11 @@ namespace DiShelved.Services
             {
                 throw new ArgumentException("Invalid Category Id", nameof(categoryId));
             }
+            if (itemCategory == null)
+            {
+               throw new InvalidOperationException("ItemCategory not found for the provided Item Id and Category Id");
+            }
+
             var isDeleted = await _ItemCategoryRepository.DeleteItemCategoryAsync(itemId, categoryId);
             if (!isDeleted)
             {
@@ -39,11 +46,29 @@ namespace DiShelved.Services
             }
             return true;
         }
+        
+        public async Task<ItemCategory?> GetItemCategoryByIdAsync(int itemId, int categoryId)
+        {
+            if (itemId <= 0)
+            {
+                throw new ArgumentException("Invalid Item Id", nameof(itemId));
+            }
+            if (categoryId <= 0)
+            {
+                throw new ArgumentException("Invalid Category Id", nameof(categoryId));
+            }
+            var itemCategory = await _ItemCategoryRepository.GetItemCategoryByIdAsync(itemId, categoryId);
+            if (itemCategory == null)
+            {
+                return null;
+            }
+            return itemCategory;
+        }
 
         // public Task<ItemCategory> UpdateItemCategoryAsync(int itemId, int categoryId, ItemCategory itemCategory)
         // {
         //   throw new NotImplementedException();
         // }
-    
-  }
+
+    }
 }

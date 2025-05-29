@@ -7,6 +7,8 @@ namespace DiShelved.Interfaces
         Task<ItemCategory> CreateItemCategoryAsync(ItemCategory itemCategory);
         Task<bool> DeleteItemCategoryAsync(int itemId, int categoryId);
 
+        Task<ItemCategory?> GetItemCategoryByIdAsync(int itemId, int categoryId);
+
         // Task<ItemCategory> UpdateItemCategoryAsync(int id, ItemCategory itemCategory);
     }
 }

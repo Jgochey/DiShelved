@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DiShelved.Interfaces
 {
-    public interface IItemCategoryService
-    {
-        Task<ItemCategory> CreateItemCategoryAsync(ItemCategory ItemCategory);
-        Task<bool> DeleteItemCategoryAsync(int itemId, int categoryId);
+  public interface IItemCategoryService
+  {
+    Task<ItemCategory> CreateItemCategoryAsync(ItemCategory ItemCategory);
+    Task<bool> DeleteItemCategoryAsync(int itemId, int categoryId);
 
-        // Task<ItemCategory> UpdateItemCategoryAsync(int itemId, int categoryId, ItemCategory itemCategory);
+    Task<ItemCategory?> GetItemCategoryByIdAsync(int itemId, int categoryId);
+
+    // Task<ItemCategory> UpdateItemCategoryAsync(int itemId, int categoryId, ItemCategory itemCategory);
   }
 }

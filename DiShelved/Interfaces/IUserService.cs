@@ -6,6 +6,7 @@ namespace DiShelved.Interfaces
     public interface IUserService
     {
         Task<User> CreateUserAsync(User User);
+        // Task<IEnumerable<User>> GetAllUsersAsync();
 
     }
 }
