@@ -31,6 +31,12 @@ namespace DiShelved.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<ItemCategory?> GetItemCategoryByIdAsync(int itemId, int categoryId)
+        {
+            return await _context.ItemCategories
+                .FirstOrDefaultAsync(ic => ic.ItemId == itemId && ic.CategoryId == categoryId);
+        }
         
         // public async Task<ItemCategory> UpdateItemCategoryAsync(int id, ItemCategory ItemCategory)
         // {

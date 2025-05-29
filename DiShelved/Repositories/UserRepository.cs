@@ -16,5 +16,10 @@ namespace DiShelved.Repositories
             return User;
         }
 
+        // public async Task<IEnumerable<User>> GetAllUsersAsync()
+        // {
+        //     return await _context.Users.ToListAsync();
+        // }
+
   }
 }
