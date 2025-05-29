@@ -10,16 +10,6 @@ using DiShelved.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// if (builder.Environment.IsDevelopment())
-// {
-//     builder.Configuration.AddUserSecrets<Program>();
-// }
-
-// var connectionString = builder.Configuration.GetConnectionString("DiShelvedDbConnectionString");
-// builder.Services.AddDbContext<DiShelvedDbContext>(options => options.UseNpgsql(connectionString));
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -34,7 +24,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-//Builder services for repository pattern
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IContainerRepository, ContainerRepository>();
@@ -48,24 +37,15 @@ builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
-// Temp
-// allows passing datetimes without time zone data 
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-// Temp
-// allows our api endpoints to access the database through Entity Framework Core
 builder.Services.AddNpgsql<DiShelvedDbContext>(builder.Configuration["DiShelvedDbConnectionString"]);
-// Temp
-// Set the JSON serializer options
+
 builder.Services.Configure<JsonOptions>(options =>
 {
     options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -13,10 +13,9 @@ namespace DiShelved.Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<User> Users { get; set; }
 
-        public DiShelvedDbContext(DbContextOptions<DiShelvedDbContext> options) : base(options) { } // Constructor
-                                                                                                    // Taking the options parameter and passing it to the base class constructor
-                                                                                                    // This allows the DbContext to be configured with options such as the database provider and connection string
-
+        // Taking the options parameter and passing it to the base class constructor.
+        // This allows the DbContext to be configured with options such as the database provider and connection string.
+        public DiShelvedDbContext(DbContextOptions<DiShelvedDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -52,7 +51,7 @@ namespace DiShelved.Data
                 new Item { Id = 4, Name = "Eldar Guardians", Description = "Minitatures for Warhammer 40k.", ContainerId = 2, Quantity = 10, Complete = false, UserId = 2, Image = "https://example.com/eldar.jpg" },
                 new Item { Id = 5, Name = "Christmas Tree", Description = "A Christmas tree.", ContainerId = 3, Quantity = 1, Complete = true, UserId = 3, Image = "https://example.com/christmas_tree.jpg" },
                 new Item { Id = 6, Name = "Halloween Decorations", Description = "Decorations for Halloween.", ContainerId = 3, Quantity = 1, Complete = false, UserId = 3, Image = "https://example.com/halloween.jpg" }
-    
+
             );
 
             // Seed ItemCategory Join Table
@@ -75,39 +74,3 @@ namespace DiShelved.Data
         }
     }
 }
-
-
-
-// Key models reference
-// protected override void OnModelCreating(ModelBuilder modelBuilder)
-// {
-//     modelBuilder.Entity<User>()
-//     .HasIndex(u => u.Uid)
-//     .IsUnique();
-
-//     // One-to-Many: User (creator) -> Projects
-//     modelBuilder.Entity<Project>()
-//     .HasOne(p => p.Creator)
-//     .WithMany(u => u.CreatedProjects)
-//     .HasForeignKey(p => p.CreatorUid)
-//     .HasPrincipalKey(u => u.Uid)
-//     .OnDelete(DeleteBehavior.Restrict);
-
-//     // Many-to-Many: Users <-> Projects (volunteers)
-//     modelBuilder.Entity<User>()
-//         .HasMany(u => u.VolunteeredProjects)
-//         .WithMany(p => p.Volunteers)
-//         .UsingEntity(j => j.ToTable("UserProjects"));
-
-//     // One-to-Many: User -> Jobs
-//     modelBuilder.Entity<Job>()
-//         .HasOne(j => j.User)
-//         .WithMany(u => u.Jobs)
-//         .HasForeignKey(j => j.UserId);
-
-//     // One-to-Many: Project -> Jobs
-//     modelBuilder.Entity<Job>()
-//         .HasOne(j => j.Project)
-//         .WithMany(p => p.Jobs)
-//         .HasForeignKey(j => j.ProjectId);
-// }

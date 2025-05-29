@@ -22,35 +22,5 @@ namespace DiShelved.Services
             return createdUser;
         }
 
-
-
-
-
-        // Testing purposes, remove later.
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
-        {
-            var Users = await _UserRepository.GetAllUsersAsync();
-            if (Users == null || !Users.Any())
-            {
-                throw new InvalidOperationException("No Users Found");
-            }
-            return Users;
-        }
-
-        public async Task<bool> DeleteUserAsync(int id)
-        {
-            if (id <= 0)
-            {
-                throw new ArgumentException("Invalid User Id");
-            }
-
-            var deleted = await _UserRepository.DeleteUserAsync(id);
-            if (!deleted)
-            {
-                throw new InvalidOperationException("User could not be deleted");
-            }
-
-            return deleted;
-        }
     }
 }

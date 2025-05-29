@@ -10,9 +10,20 @@ namespace DiShelved.Repositories
         private readonly DiShelvedDbContext _context;
         public ItemRepository(DiShelvedDbContext context) => _context = context;
 
-        public async Task<IEnumerable<Item>> GetAllItemsAsync()
+        public async Task<IEnumerable<Item>> GetItemsByUserIdAsync(int userId)
         {
-            return await _context.Items.ToListAsync();
+            if (userId <= 0)
+            {
+                return (IEnumerable<Item>)Results.BadRequest("User Id not found");
+            }
+            var items = await _context.Items
+                .Where(i => i.UserId == userId)
+                .ToListAsync();
+            if (items == null || !items.Any())
+            {
+                return (IEnumerable<Item>)Results.BadRequest("Items not found for this User Id");
+            }
+            return items;
         }
         public async Task<Item> GetItemByIdAsync(int id)
         {

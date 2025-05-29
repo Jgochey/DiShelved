@@ -7,13 +7,15 @@ public static class CategoryEndpoints
 {
     public static void MapCategoryEndpoints(this IEndpointRouteBuilder routes)
     {
-        // Get All Categories
-        routes.MapGet("/Categories", async (ICategoryService repo) =>
+        // Get Categories By User Id
+        routes.MapGet("/Categories/User/{userId}", async (int userId, ICategoryService repo) =>
         {
-            return await repo.GetAllCategoriesAsync();
+            var categories = await repo.GetCategoriesByUserIdAsync(userId);
+            return categories is not null ? Results.Ok(categories) : Results.NotFound();
         })
-        .WithName("GetAllCategories")
-        .Produces<List<Category>>(StatusCodes.Status200OK);
+        .WithName("GetCategoriesByUserId")
+        .Produces<List<Category>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound);
 
         // Get Category By Id
         routes.MapGet("/Categories/{id}", async (int id, ICategoryService repo) =>

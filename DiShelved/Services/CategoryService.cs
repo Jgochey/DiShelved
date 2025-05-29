@@ -21,14 +21,19 @@ namespace DiShelved.Services
             }
             return Category;
         }
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+
+        public async Task<IEnumerable<Category>> GetCategoriesByUserIdAsync(int userId)
         {
-            var Categorys = await _CategoryRepository.GetAllCategoriesAsync();
-            if (Categorys == null || !Categorys.Any())
+            if (userId <= 0)
             {
-                throw new InvalidOperationException("No Categorys Found");
+                throw new ArgumentException("Invalid User Id", nameof(userId));
             }
-            return Categorys;
+            var categories = await _CategoryRepository.GetCategoriesByUserIdAsync(userId);
+            if (categories == null || !categories.Any())
+            {
+                throw new InvalidOperationException("No Categories Found for this User Id");
+            }
+            return categories;
         }
         public async Task<Category> CreateCategoryAsync(Category Category)
         {

@@ -9,10 +9,21 @@ namespace DiShelved.Repositories
     {
         private readonly DiShelvedDbContext _context;
         public CategoryRepository(DiShelvedDbContext context) => _context = context;
-       
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+
+        public async Task<IEnumerable<Category>> GetCategoriesByUserIdAsync(int userId)
         {
-            return await _context.Categories.ToListAsync();
+            if (userId <= 0)
+            {
+                return (IEnumerable<Category>)Results.BadRequest("User Id not found");
+            }
+            var categories = await _context.Categories
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+            if (categories == null || !categories.Any())
+            {
+                return (IEnumerable<Category>)Results.BadRequest("Categories not found for this User Id");
+            }
+            return categories;
         }
         public async Task<Category> GetCategoryByIdAsync(int id)
         {

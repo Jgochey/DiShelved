@@ -10,9 +10,20 @@ namespace DiShelved.Repositories
         private readonly DiShelvedDbContext _context;
         public LocationRepository(DiShelvedDbContext context) => _context = context;
        
-        public async Task<IEnumerable<Location>> GetAllLocationsAsync()
+        public async Task<IEnumerable<Location>> GetLocationsByUserIdAsync(int userId)
         {
-            return await _context.Locations.ToListAsync();
+            if (userId <= 0)
+            {
+                return (IEnumerable<Location>)Results.BadRequest("User Id not found");
+            }
+            var locations = await _context.Locations
+                .Where(l => l.UserId == userId)
+                .ToListAsync();
+            if (locations == null || !locations.Any())
+            {
+                return (IEnumerable<Location>)Results.BadRequest("Locations not found for this User Id");
+            }
+            return locations;
         }
         public async Task<Location> GetLocationByIdAsync(int id)
         {

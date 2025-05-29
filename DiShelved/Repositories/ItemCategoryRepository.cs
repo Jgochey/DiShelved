@@ -10,10 +10,6 @@ namespace DiShelved.Repositories
         private readonly DiShelvedDbContext _context;
         public ItemCategoryRepository(DiShelvedDbContext context) => _context = context;
 
-        public async Task<IEnumerable<ItemCategory>> GetAllItemCategoriesAsync()
-        {
-            return await _context.ItemCategories.ToListAsync();
-        }
         public async Task<ItemCategory> CreateItemCategoryAsync(ItemCategory ItemCategory)
         {
             _context.ItemCategories.Add(ItemCategory);

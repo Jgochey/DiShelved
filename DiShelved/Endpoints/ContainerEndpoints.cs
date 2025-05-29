@@ -8,13 +8,15 @@ public static class ContainerEndpoints
 {
     public static void MapContainerEndpoints(this IEndpointRouteBuilder routes)
     {
-        // Get All Containers
-        routes.MapGet("/Containers", async (IContainerService repo) =>
+        // Get Containers By User Id
+        routes.MapGet("/Containers/User/{userId}", async (int userId, IContainerService repo) =>
         {
-            return await repo.GetAllContainersAsync();
+            var containers = await repo.GetContainersByUserIdAsync(userId);
+            return containers is not null ? Results.Ok(containers) : Results.NotFound();
         })
-        .WithName("GetAllContainers")
-        .Produces<List<Container>>(StatusCodes.Status200OK);
+        .WithName("GetContainersByUserId")
+        .Produces<List<Container>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound);
 
         // Get Container By Id
         routes.MapGet("/Containers/{id}", async (int id, IContainerService repo) =>
@@ -61,8 +63,6 @@ public static class ContainerEndpoints
         .WithName("DeleteContainer")
         .Produces(StatusCodes.Status204NoContent)
         .Produces(StatusCodes.Status404NotFound);
-
-        
 
         // Get Containers By Location Id
         routes.MapGet("/Containers/Location/{locationId}", async (int locationId, IContainerService repo) =>

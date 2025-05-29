@@ -4,7 +4,7 @@ namespace DiShelved.Interfaces
 {
     public interface IItemRepository
     {
-        Task<IEnumerable<Item>> GetAllItemsAsync();
+        Task<IEnumerable<Item>> GetItemsByUserIdAsync(int userId);
         Task<Item> GetItemByIdAsync(int id);
         Task<Item> CreateItemAsync(Item Item);
         Task<Item> UpdateItemAsync(int id, Item Item);

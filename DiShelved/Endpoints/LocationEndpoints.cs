@@ -7,13 +7,12 @@ public static class LocationEndpoints
 {
     public static void MapLocationEndpoints(this IEndpointRouteBuilder routes)
     {
-        // Get All Locations
-        routes.MapGet("/Locations", async (ILocationService repo) =>
+        // Get Locations By User Id
+        routes.MapGet("/Locations/User/{userId}", async (int userId, ILocationService repo) =>
         {
-            return await repo.GetAllLocationsAsync();
-        })
-        .WithName("GetAllLocations")
-        .Produces<List<Location>>(StatusCodes.Status200OK);
+            var locations = await repo.GetLocationsByUserIdAsync(userId);
+            return locations is not null ? Results.Ok(locations) : Results.NotFound();
+        });
 
         // Get Location By Id
         routes.MapGet("/Locations/{id}", async (int id, ILocationService repo) =>
@@ -50,7 +49,6 @@ public static class LocationEndpoints
             ILocationService locationService, 
             IContainerService containerService) =>
         {
-            // Check if the location has any Containers associated with it
             var containers = await containerService.GetContainersByLocationIdAsync(id);
             if (containers.Any())
             {

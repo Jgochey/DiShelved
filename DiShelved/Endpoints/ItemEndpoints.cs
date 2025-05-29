@@ -7,13 +7,12 @@ public static class ItemEndpoints
 {
     public static void MapItemEndpoints(this IEndpointRouteBuilder routes)
     {
-        // Get All Items
-        routes.MapGet("/Items", async (IItemService repo) =>
+        // Get Items By User Id
+        routes.MapGet("/Items/User/{userId}", async (int userId, IItemService repo) =>
         {
-            return await repo.GetAllItemsAsync();
-        })
-        .WithName("GetAllItems")
-        .Produces<List<Item>>(StatusCodes.Status200OK);
+            var items = await repo.GetItemsByUserIdAsync(userId);
+            return items is not null ? Results.Ok(items) : Results.NotFound();
+        });
 
         // Get Item By Id
         routes.MapGet("/Items/{id}", async (int id, IItemService repo) =>
