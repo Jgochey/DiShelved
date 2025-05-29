@@ -8,15 +8,6 @@ namespace DiShelved.Services
         private readonly IItemCategoryRepository _ItemCategoryRepository;
         public ItemCategoryService(IItemCategoryRepository ItemCategoryRepository) => _ItemCategoryRepository = ItemCategoryRepository;
 
-        public async Task<IEnumerable<ItemCategory>> GetAllItemCategoriesAsync()
-        {
-            var ItemCategories = await _ItemCategoryRepository.GetAllItemCategoriesAsync();
-            if (ItemCategories == null || !ItemCategories.Any())
-            {
-                throw new InvalidOperationException("No Item Categories Found");
-            }
-            return ItemCategories;
-        }
         public async Task<ItemCategory> CreateItemCategoryAsync(ItemCategory ItemCategory)
         {
             if (ItemCategory == null)

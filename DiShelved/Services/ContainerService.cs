@@ -22,14 +22,19 @@ namespace DiShelved.Services
             }
             return Container;
         }
-        public async Task<IEnumerable<Container>> GetAllContainersAsync()
+
+        public async Task<IEnumerable<Container>> GetContainersByUserIdAsync(int userId)
         {
-            var Containers = await _ContainerRepository.GetAllContainersAsync();
-            if (Containers == null || !Containers.Any())
+            if (userId <= 0)
             {
-                throw new InvalidOperationException("No Containers Found");
+                throw new ArgumentException("Invalid User Id", nameof(userId));
             }
-            return Containers;
+            var containers = await _ContainerRepository.GetContainersByUserIdAsync(userId);
+            if (containers == null || !containers.Any())
+            {
+                throw new InvalidOperationException("No Containers Found for this User Id");
+            }
+            return containers;
         }
         public async Task<Container> CreateContainerAsync(Container Container)
         {

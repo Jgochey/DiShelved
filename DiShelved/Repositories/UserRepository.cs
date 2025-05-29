@@ -16,29 +16,5 @@ namespace DiShelved.Repositories
             return User;
         }
 
-
-
-
-
-
-
-        // Testing purposes, remove later.       
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
-        {
-            return await _context.Users.ToListAsync();
-        }
-
-
-        public async Task<bool> DeleteUserAsync(int id)
-        {
-            var User = await _context.Users.FindAsync(id);
-            if (User == null)
-            {
-                return false;
-            }
-            _context.Users.Remove(User);
-            await _context.SaveChangesAsync();
-            return true;
-        }
   }
 }

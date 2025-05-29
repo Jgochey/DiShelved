@@ -22,14 +22,19 @@ namespace DiShelved.Services
             }
             return Item;
         }
-        public async Task<IEnumerable<Item>> GetAllItemsAsync()
+
+        public async Task<IEnumerable<Item>> GetItemsByUserIdAsync(int userId)
         {
-            var Items = await _ItemRepository.GetAllItemsAsync();
-            if (Items == null || !Items.Any())
+            if (userId <= 0)
             {
-                throw new InvalidOperationException("No Items Found");
+                throw new ArgumentException("Invalid User Id", nameof(userId));
             }
-            return Items;
+            var items = await _ItemRepository.GetItemsByUserIdAsync(userId);
+            if (items == null || !items.Any())
+            {
+                throw new InvalidOperationException("No Items Found for this User Id");
+            }
+            return items;
         }
         public async Task<Item> CreateItemAsync(Item Item)
         {

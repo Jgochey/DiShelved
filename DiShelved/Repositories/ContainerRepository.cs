@@ -9,10 +9,21 @@ namespace DiShelved.Repositories
     {
         private readonly DiShelvedDbContext _context;
         public ContainerRepository(DiShelvedDbContext context) => _context = context;
-       
-        public async Task<IEnumerable<Container>> GetAllContainersAsync()
+
+        public async Task<IEnumerable<Container>> GetContainersByUserIdAsync(int userId)
         {
-            return await _context.Containers.ToListAsync();
+            if (userId <= 0)
+            {
+                return (IEnumerable<Container>)Results.BadRequest("User Id not found");
+            }
+            var containers = await _context.Containers
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+            if (containers == null || !containers.Any())
+            {
+                return (IEnumerable<Container>)Results.BadRequest("Containers not found for this User Id");
+            }
+            return containers;
         }
         public async Task<Container> GetContainerByIdAsync(int id)
         {

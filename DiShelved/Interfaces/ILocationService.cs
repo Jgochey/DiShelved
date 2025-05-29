@@ -5,7 +5,7 @@ namespace DiShelved.Interfaces
 {
     public interface ILocationService
     {
-        Task<IEnumerable<Location>> GetAllLocationsAsync();
+        Task<IEnumerable<Location>> GetLocationsByUserIdAsync(int userId);
         Task<Location?> GetLocationByIdAsync(int id);
         Task<Location> CreateLocationAsync(Location Location);
         Task<Location> UpdateLocationAsync(int Id, Location Location);

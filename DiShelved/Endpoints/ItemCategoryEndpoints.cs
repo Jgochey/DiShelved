@@ -7,14 +7,6 @@ public static class ItemCategoryEndpoints
 {
     public static void MapItemCategoryEndpoints(this IEndpointRouteBuilder routes)
     {
-        // Get All ItemCategories
-        routes.MapGet("/ItemCategory", async (IItemCategoryService repo) =>
-        {
-            return await repo.GetAllItemCategoriesAsync();
-        })
-        .WithName("GetAllItemCategories")
-        .Produces<List<ItemCategory>>(StatusCodes.Status200OK);
-
         // Create ItemCategory
         routes.MapPost("/ItemCategory/{itemId}/{categoryId}", async (int itemId, int categoryId, IItemCategoryService repo) =>
         {

@@ -21,15 +21,21 @@ namespace DiShelved.Services
             }
             return Location;
         }
-        public async Task<IEnumerable<Location>> GetAllLocationsAsync()
+
+        public async Task<IEnumerable<Location>> GetLocationsByUserIdAsync(int userId)
         {
-            var Locations = await _LocationRepository.GetAllLocationsAsync();
-            if (Locations == null || !Locations.Any())
+            if (userId <= 0)
             {
-                throw new InvalidOperationException("No Locations Found");
+                throw new ArgumentException("Invalid User Id", nameof(userId));
             }
-            return Locations;
+            var locations = await _LocationRepository.GetLocationsByUserIdAsync(userId);
+            if (locations == null || !locations.Any())
+            {
+                throw new InvalidOperationException("No Locations Found for this User Id");
+            }
+            return locations;
         }
+
         public async Task<Location> CreateLocationAsync(Location Location)
         {
             if (Location == null)
