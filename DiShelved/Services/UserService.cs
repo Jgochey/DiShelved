@@ -22,15 +22,5 @@ namespace DiShelved.Services
             return createdUser;
         }
 
-    // public async Task<IEnumerable<User>> GetAllUsersAsync()
-    //     {
-    //         var users = await _userRepository.GetAllUsersAsync();
-    //         if (users == null || !users.Any())
-    //         {
-    //             throw new InvalidOperationException("No Users Found");
-    //         }
-    //         return users;
-    //     }
-
     }
 }
