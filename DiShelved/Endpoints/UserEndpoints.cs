@@ -23,5 +23,12 @@ public static class UserEndpoints
             return user is not null ? Results.Ok(user) : Results.NotFound();
         });
 
+        // Get all Users
+        routes.MapGet("/Users", async (IUserService repo) =>
+        {
+            var users = await repo.GetAllUsersAsync();
+            return Results.Ok(users);
+        });
+
     }
 }

@@ -9,5 +9,7 @@ namespace DiShelved.Interfaces
 
         Task<User?> GetUserByIdAsync(int id);
 
+        Task<IEnumerable<User>> GetAllUsersAsync();
+
     }
 }
