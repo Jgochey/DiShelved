@@ -2,9 +2,11 @@
 
 namespace DiShelved.Interfaces
 {
-    public interface IUserRepository
-    {
-        Task<User> CreateUserAsync(User User);
+  public interface IUserRepository
+  {
+    Task<User> CreateUserAsync(User User);
+        
+    Task<User?> GetUserByIdAsync(int id);
     
   }
 }
