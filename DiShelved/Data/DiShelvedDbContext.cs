@@ -24,9 +24,9 @@ namespace DiShelved.Data
 
             // Seed Users
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, },
-                new User { Id = 2, },
-                new User { Id = 3, }
+                new User { Id = 1, Uid = "6KTKbh6BBYMXkqjJ0oYdEsb3ekC2" },
+                new User { Id = 2, Uid = "dTsb3ekC26DKGMXkqj6KTKbhJ0oY" },
+                new User { Id = 3, Uid = "dHsb3ekC26DVBSXkqj6KPLbhJ0oY" }
             );
 
             // Seed Categories

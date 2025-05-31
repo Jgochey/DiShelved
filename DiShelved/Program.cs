@@ -37,7 +37,8 @@ builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddNpgsql<DiShelvedDbContext>(builder.Configuration["DiShelvedDbConnectionString"]);
+builder.Services.AddDbContext<DiShelvedDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DiShelvedDbConnectionString")));
 
 builder.Services.Configure<JsonOptions>(options =>
 {
