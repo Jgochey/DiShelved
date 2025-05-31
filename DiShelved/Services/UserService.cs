@@ -22,5 +22,10 @@ namespace DiShelved.Services
             return createdUser;
         }
 
+        public async Task<User?> GetUserByIdAsync(int id)
+        {
+            return await _userRepository.GetUserByIdAsync(id);
+        }
+
     }
 }

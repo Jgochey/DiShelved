@@ -10,11 +10,18 @@ public static class UserEndpoints
         // Create User
         routes.MapPost("/Users", async (User User, IUserService repo) =>
         {
-            var createdUser = await repo.CreateUserAsync(User); 
+            var createdUser = await repo.CreateUserAsync(User);
             return Results.Created($"/api/Users/{createdUser.Id}", createdUser);
         })
         .WithName("CreateUser")
         .Produces<User>(StatusCodes.Status201Created);
+
+        // Get User by ID
+        routes.MapGet("/Users/{id}", async (int id, IUserService repo) =>
+        {
+            var user = await repo.GetUserByIdAsync(id);
+            return user is not null ? Results.Ok(user) : Results.NotFound();
+        });
 
     }
 }
