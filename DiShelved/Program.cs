@@ -9,11 +9,6 @@ using DiShelved.Services;
 using DiShelved.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
-Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
-foreach (var provider in ((IConfigurationRoot)builder.Configuration).Providers)
-{
-    Console.WriteLine(provider.ToString());
-}
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -67,5 +62,6 @@ app.MapItemEndpoints();
 app.MapItemCategoryEndpoints();
 app.MapLocationEndpoints();
 app.MapUserEndpoints();
+
 
 app.Run();
