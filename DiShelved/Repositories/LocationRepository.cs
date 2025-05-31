@@ -25,6 +25,34 @@ namespace DiShelved.Repositories
             }
             return locations;
         }
+
+        public async Task<IEnumerable<Location>> GetLocationsByUserUidAsync(string uid)
+        {
+            if (string.IsNullOrEmpty(uid))
+            {
+                return (IEnumerable<Location>)Results.BadRequest("User Uid not found");
+            }
+
+            // Step 2: Find the User's Id by Uid
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Uid == uid);
+            if (user == null)
+            {
+                return (IEnumerable<Location>)Results.BadRequest("User not found for this Uid");
+            }
+
+            // Step 3: Retrieve all Locations for that User Id
+            var locations = await _context.Locations
+                .Where(l => l.UserId == user.Id)
+                .ToListAsync();
+
+            if (locations == null || !locations.Any())
+            {
+                return (IEnumerable<Location>)Results.BadRequest("Locations not found for this User Uid");
+            }
+
+            return locations;
+        }
+
         public async Task<Location> GetLocationByIdAsync(int id)
         {
             if (id <= 0)

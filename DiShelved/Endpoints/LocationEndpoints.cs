@@ -14,6 +14,14 @@ public static class LocationEndpoints
             return locations is not null ? Results.Ok(locations) : Results.NotFound();
         });
 
+        // Get locations by User Uid
+        routes.MapGet("/Locations/UserUid/{Uid}", async (string Uid, ILocationService repo) =>
+        {
+            var locations = await repo.GetLocationsByUserUidAsync(Uid);
+            return locations is not null ? Results.Ok(locations) : Results.NotFound();
+        });
+
+
         // Get Location By Id
         routes.MapGet("/Locations/{id}", async (int id, ILocationService repo) =>
         {

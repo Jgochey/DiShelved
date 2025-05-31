@@ -36,6 +36,20 @@ namespace DiShelved.Services
             return locations;
         }
 
+        public async Task<IEnumerable<Location>> GetLocationsByUserUidAsync(string uid)
+        {
+            if (string.IsNullOrEmpty(uid))
+            {
+                throw new ArgumentException("Invalid User Uid", nameof(uid));
+            }
+            var locations = await _LocationRepository.GetLocationsByUserUidAsync(uid);
+            if (locations == null || !locations.Any())
+            {
+                throw new InvalidOperationException("No Locations Found for this User Uid");
+            }
+            return locations;
+        }
+
         public async Task<Location> CreateLocationAsync(Location Location)
         {
             if (Location == null)
