@@ -18,7 +18,9 @@ public static class LocationEndpoints
         routes.MapGet("/Locations/UserUid/{Uid}", async (string Uid, ILocationService repo) =>
         {
             var locations = await repo.GetLocationsByUserUidAsync(Uid);
-            return locations is not null ? Results.Ok(locations) : Results.NotFound();
+            if (locations == null)
+                return Results.BadRequest("User not found for this Uid");
+            return Results.Ok(locations);
         });
 
 

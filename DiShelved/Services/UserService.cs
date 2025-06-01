@@ -14,10 +14,20 @@ namespace DiShelved.Services
             {
                 throw new ArgumentNullException(nameof(User), "Created User cannot be null");
             }
+
+            // Check for existing user by UID
+            var existingUser = await _userRepository.GetUserByUidAsync(User.Uid);
+            if (existingUser != null)
+            {
+                // Return the existing user if it already exists
+                return existingUser;
+
+            }
+
             var createdUser = await _userRepository.CreateUserAsync(User);
             if (createdUser == null)
             {
-                return (User)Results.BadRequest("User Not Created");
+                throw new InvalidOperationException("User Not Created");
             }
             return createdUser;
         }
@@ -32,5 +42,13 @@ namespace DiShelved.Services
             return await _userRepository.GetAllUsersAsync();
         }
 
+        public async Task<User?> GetUserByUidAsync(string uid)
+        {
+            if (string.IsNullOrEmpty(uid))
+            {
+                return null;
+            }
+            return await _userRepository.GetUserByUidAsync(uid);
+        }
     }
 }

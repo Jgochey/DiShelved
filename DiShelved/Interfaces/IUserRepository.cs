@@ -7,6 +7,7 @@ namespace DiShelved.Interfaces
     Task<User> CreateUserAsync(User User);
 
     Task<User?> GetUserByIdAsync(int id);
+    Task<User?> GetUserByUidAsync(string uid);
 
     Task<IEnumerable<User>> GetAllUsersAsync();
     
