@@ -20,8 +20,6 @@ public static class LocationEndpoints
             var locations = await repo.GetLocationsByUserUidAsync(Uid);
             if (locations == null)
                 return Results.BadRequest("User not found for this Uid");
-            if (!locations.Any())
-                return Results.NotFound("Locations not found for this User Uid");
             return Results.Ok(locations);
         });
 

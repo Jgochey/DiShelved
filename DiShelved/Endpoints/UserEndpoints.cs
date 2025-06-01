@@ -7,6 +7,15 @@ public static class UserEndpoints
 {
     public static void MapUserEndpoints(this IEndpointRouteBuilder routes)
     {
+        // Get User by UID
+        routes.MapGet("/Users/Uid/{uid}", async (string uid, IUserService repo) =>
+        {
+            var user = await repo.GetUserByUidAsync(uid);
+            if (user == null)
+                return Results.BadRequest("User not found for this UID");
+            return Results.Ok(user);
+        });
+
         // Create User
         routes.MapPost("/Users", async (User User, IUserService repo) =>
         {

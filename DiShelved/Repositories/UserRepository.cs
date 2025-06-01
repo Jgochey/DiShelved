@@ -26,5 +26,13 @@ namespace DiShelved.Repositories
             return await _context.Users.ToListAsync();
         }
 
-  }
+        public async Task<User?> GetUserByUidAsync(string uid)
+        {
+            if (string.IsNullOrEmpty(uid))
+            {
+                return null;
+            }
+            return await _context.Users.FirstOrDefaultAsync(u => u.Uid == uid);
+        }
+    }
 }
