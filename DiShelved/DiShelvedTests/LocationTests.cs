@@ -54,6 +54,37 @@ namespace DiShelved.Tests
     }
 
     [Fact]
+    public async Task GetLocationByUid_ShouldReturnLocation_WhenLocationExists()
+    {
+
+      var userUid = "test-uid";
+      var expectedLocation = new Location { Id = 1, Name = "Garage", Description = "The shelf inside the Garage.", UserId = 1 };
+
+      // The GetLocationsByUserUidAsync method is called with the userUid parameter, the mock object should return a list containing the expectedLocation instance.
+      _mockLocationRepository.Setup(repo => repo.GetLocationsByUserUidAsync(userUid))
+      .Returns(Task.FromResult<IEnumerable<Location>>(new List<Location> { expectedLocation }));
+
+      var actualLocations = await _locationService.GetLocationsByUserUidAsync(userUid);
+
+      // The actualLocations returned by the GetLocationsByUserUidAsync method should contain the expectedLocation instance.
+      Assert.Single(actualLocations);
+      Assert.Equal(expectedLocation, actualLocations.First());
+    }
+
+    [Fact]
+    public async Task GetLocationsByUserUid_ShouldReturnEmptyList_WhenNoLocationsExist()
+    {
+      var userUid = "non-existent-uid";
+
+      _mockLocationRepository.Setup(repo => repo.GetLocationsByUserUidAsync(userUid))
+      .Returns(Task.FromResult<IEnumerable<Location>>(new List<Location>()));
+
+      var actualLocations = await _locationService.GetLocationsByUserUidAsync(userUid);
+
+      Assert.Empty(actualLocations);
+    }
+
+    [Fact]
     public async Task CreateLocation_ShouldCreateLocation_WhenLocationIsValid()
     {
       var newLocation = new Location { Id = 1, Name = "Garage", Description = "The shelf inside the Garage.", UserId = 1 };

@@ -65,17 +65,18 @@ namespace DiShelved.Repositories
             await _context.SaveChangesAsync();
             return Location;
         }
-        public async Task<Location> UpdateLocationAsync(int id, Location Location)
+        public async Task<Location> UpdateLocationAsync(int id, Location location)
         {
             var existingLocation = await _context.Locations.FindAsync(id);
             if (existingLocation == null)
             {
-                return (Location)Results.BadRequest("Location not found");
+                // Throw an exception or return null
+                return null;
             }
 
-            existingLocation.Name = Location.Name;
-            existingLocation.Description = Location.Description;
-            existingLocation.UserId = Location.UserId;
+            existingLocation.Name = location.Name;
+            existingLocation.Description = location.Description;
+            existingLocation.UserId = location.UserId;
 
             await _context.SaveChangesAsync();
             return existingLocation;

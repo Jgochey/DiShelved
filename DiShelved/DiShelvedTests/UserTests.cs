@@ -23,8 +23,7 @@ namespace DiShelved.Tests
     [Fact]
     public async Task CreateUser_ShouldCreateUser_WhenUserIsValid()
     {
-      var newUser = new User { Id = 3 };
-      // The CreateUser method should return the newUser instance when the newUser parameter is valid.
+      var newUser = new User { Id = 3, Uid = "test-uid" };
 
       _mockUserRepository.Setup(repo => repo.CreateUserAsync(newUser)).Verifiable();
 
@@ -39,9 +38,76 @@ namespace DiShelved.Tests
       User newUser = null;
 
       // The CreateUser method should throw an ArgumentNullException when the newUser parameter is null.
-      await Assert.ThrowsAsync<ArgumentNullException>(async () => await _userService.CreateUserAsync(newUser));
+      await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+      await _userService.CreateUserAsync(newUser));
     }
 
-    
+    [Fact]
+    public async Task GetUserById_ShouldReturnUser_WhenUserExists()
+    {
+      var userId = 1;
+      var expectedUser = new User { Id = userId, Uid = "test-uid" };
+
+      // The GetUserByIdAsync method should return the expectedUser instance when the user exists.
+      _mockUserRepository.Setup(repo =>
+      repo.GetUserByIdAsync(userId))
+      .ReturnsAsync(expectedUser);
+
+      var result = await _userService.GetUserByIdAsync(userId);
+      Assert.Equal(expectedUser, result);
+    }
+
+    [Fact]
+    public async Task GetUserById_ShouldReturnNull_WhenUserDoesNotExist()
+    {
+      var userId = 999; // Assuming this ID does not exist
+      _mockUserRepository.Setup(repo =>
+      repo.GetUserByIdAsync(userId))
+      .ReturnsAsync((User)null);
+
+      var result = await _userService.GetUserByIdAsync(userId);
+      Assert.Null(result);
+    }
+
+    [Fact]
+    public async Task GetUserByUid_ShouldReturnUser_WhenUserExists()
+    {
+      var userUid = "test-uid";
+      var expectedUser = new User { Id = 1, Uid = userUid };
+
+      _mockUserRepository.Setup(repo =>
+      repo.GetUserByUidAsync(userUid))
+      .ReturnsAsync(expectedUser);
+
+      var result = await _userService.GetUserByUidAsync(userUid);
+      Assert.Equal(expectedUser, result);
+    }
+
+    [Fact]
+    public async Task GetUserByUid_ShouldReturnNull_WhenUidIsNullOrEmpty()
+    {
+      string userUid = null;
+
+      // The GetUserByUidAsync method should return null when the uid parameter is null or empty.
+      var result = await _userService.GetUserByUidAsync(userUid);
+      Assert.Null(result);
+
+      userUid = string.Empty;
+      result = await _userService.GetUserByUidAsync(userUid);
+      Assert.Null(result);
+    }
+
+    [Fact]
+    public async Task GetUserByUid_ShouldReturnNull_WhenUserDoesNotExist()
+    {
+      var userUid = "non-existent-uid";
+      _mockUserRepository.Setup(repo =>
+      repo.GetUserByUidAsync(userUid))
+      .ReturnsAsync((User)null);
+
+      var result = await _userService.GetUserByUidAsync(userUid);
+      Assert.Null(result);
+    }
+
   }
 }
