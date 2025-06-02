@@ -37,11 +37,6 @@ namespace DiShelved.Services
             return await _userRepository.GetUserByIdAsync(id);
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
-        {
-            return await _userRepository.GetAllUsersAsync();
-        }
-
         public async Task<User?> GetUserByUidAsync(string uid)
         {
             if (string.IsNullOrEmpty(uid))

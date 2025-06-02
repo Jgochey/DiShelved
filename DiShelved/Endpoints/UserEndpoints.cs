@@ -14,7 +14,18 @@ public static class UserEndpoints
             if (user == null)
                 return Results.BadRequest("User not found for this UID");
             return Results.Ok(user);
-        });
+        })
+        .WithName("GetUserByUid")
+        .Produces<User>(StatusCodes.Status200OK);
+
+        // Get User by ID
+        routes.MapGet("/Users/{id}", async (int id, IUserService repo) =>
+        {
+            var user = await repo.GetUserByIdAsync(id);
+            return user is not null ? Results.Ok(user) : Results.NotFound();
+        })
+        .WithName("GetUserById")
+        .Produces<User>(StatusCodes.Status200OK);
 
         // Create User
         routes.MapPost("/Users", async (User User, IUserService repo) =>
@@ -24,20 +35,6 @@ public static class UserEndpoints
         })
         .WithName("CreateUser")
         .Produces<User>(StatusCodes.Status201Created);
-
-        // Get User by ID
-        routes.MapGet("/Users/{id}", async (int id, IUserService repo) =>
-        {
-            var user = await repo.GetUserByIdAsync(id);
-            return user is not null ? Results.Ok(user) : Results.NotFound();
-        });
-
-        // Get all Users
-        routes.MapGet("/Users", async (IUserService repo) =>
-        {
-            var users = await repo.GetAllUsersAsync();
-            return Results.Ok(users);
-        });
 
     }
 }
