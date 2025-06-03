@@ -4,6 +4,8 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiShelved", "DiShelved\DiShelved.csproj", "{28F84CE1-F17B-BB3E-3948-405E22773D8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiShelvedTests", "DiShelvedTests\DiShelvedTests.csproj", "{311E6635-074C-FA78-CF17-D856DB32CF70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,11 +16,15 @@ Global
 		{28F84CE1-F17B-BB3E-3948-405E22773D8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28F84CE1-F17B-BB3E-3948-405E22773D8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28F84CE1-F17B-BB3E-3948-405E22773D8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{311E6635-074C-FA78-CF17-D856DB32CF70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{311E6635-074C-FA78-CF17-D856DB32CF70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{311E6635-074C-FA78-CF17-D856DB32CF70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{311E6635-074C-FA78-CF17-D856DB32CF70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A19EAD8B-B26F-48DF-AA27-618F2B0E2F0C}
+		SolutionGuid = {023D9C6E-A068-4B33-A776-A62F4A23A76D}
 	EndGlobalSection
 EndGlobal
