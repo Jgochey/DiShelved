@@ -1,10 +1,12 @@
 # **DiShelved 💻**
 <p align="center">
+  <a href="#-features">Features</a> •
+  <a href="#-user-description">User Description</a> •
   <a href="#-technologies">Technologies</a> •
   <a href="#-getting-started">Getting Started</a> •
   <a href="#-api-endpoints">API Endpoints</a> •
-  <a href="#collaborators">Collaborators</a> •
-  <a href="#contribute">Contribute</a>
+  <a href="#-documentation">Documentation</a> •
+  <a href="#-contributors">Contributors</a>
 </p>
 
 <p align="center">
