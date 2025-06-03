@@ -11,6 +11,19 @@
 DiShelved is a management app for Item Collections. Whether it's Board Games, Miniatures or Holiday Decorations - DiShelved makes it simple for Users to manage where their Items are stored.
 </p>
 
+## ✨ Features
+- Sign-in to save your own collection data
+- List new Locations to display where your items are being kept
+- Place new Containers in each Location to hold items in
+- Add Items to your Containers! Provide Names, Descriptions and Images for each item to keep track of them
+- You may also indicate the quantity of an Item(s) and whether or not it is missing any pieces
+
+## 😊 User Description
+DiShelved is designed with Item Collectors in mind. A key user would be someone with a large collection of Items such as games or collectables that needs managing.
+This is why the Items will indicate whether they are complete or if there are more than one in the collection.
+Though the app is built with Collectables in mind, it could also be used by anyone looking to keep track of their belongings, such as furniture, books and more.
+
+
 ## 💻 Technologies
 
 - C#
@@ -93,5 +106,11 @@ Here are the main routes of the API:
 ## 📄 Documentation
 
 [View the DiShelved Postman Documentation to learn more about the Endpoints above.](https://documenter.getpostman.com/view/36639418/2sB2qfAzEy?authuser=0)
+[See a 1-minute overview of the API Endpoints on Postman.](https://www.loom.com/share/79097f102a1649b9bdb03ba98acacd0d?sid=e7871ba8-5b4d-4055-aba6-9aef7b6e0ec7)
+[See the ERD on dbdiagram to understand the relationships between entities.](https://dbdiagram.io/d/DiShelved-68227fd95b2fc4582f4a2b7a)
+[View the DiShelved Project board for progress on the latest updates.](https://github.com/users/Jgochey/projects/11)
 
 ---
+
+## 👨‍🔬 Contributors
+[Josh Gochey](https://github.com/Jgochey)
