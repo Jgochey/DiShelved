@@ -84,5 +84,51 @@ namespace DiShelved.Repositories
             }
             return _context.Items.Where(i => i.ContainerId == containerId).ToListAsync().ContinueWith(task => (IEnumerable<Item>)task.Result);
         }
+
+
+
+
+
+
+
+
+
+
+        // MoveItemDto
+        public async Task<Item> MoveItemAsync(int id, int containerId)
+        {
+            if (id <= 0)
+            {
+                return (Item)Results.BadRequest("Invalid Item Id");
+            }
+            if (containerId <= 0)
+            {
+                return (Item)Results.BadRequest("Invalid Container Id");
+            }
+
+            var item = await _context.Items.FindAsync(id);
+            if (item == null)
+            {
+                return (Item)Results.BadRequest("Item not found");
+            }
+
+            item.ContainerId = containerId;
+            _context.Items.Update(item);
+            await _context.SaveChangesAsync();
+            return item;
+        }
+
+        // Search Items
+        public async Task<List<Item>> SearchItemsAsync(string searchTerm, int userId)
+        {
+            if (userId <= 0)
+            {
+                return new List<Item>();
+            }
+
+            return await _context.Items
+                .Where(i => i.UserId == userId && (i.Name.Contains(searchTerm) || i.Description.Contains(searchTerm)))
+                .ToListAsync();
+        }
     }
 }

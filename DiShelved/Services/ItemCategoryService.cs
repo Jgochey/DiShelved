@@ -36,7 +36,7 @@ namespace DiShelved.Services
             }
             if (itemCategory == null)
             {
-               throw new InvalidOperationException("ItemCategory not found for the provided Item Id and Category Id");
+                throw new InvalidOperationException("ItemCategory not found for the provided Item Id and Category Id");
             }
 
             var isDeleted = await _ItemCategoryRepository.DeleteItemCategoryAsync(itemId, categoryId);
@@ -46,7 +46,7 @@ namespace DiShelved.Services
             }
             return true;
         }
-        
+
         public async Task<ItemCategory?> GetItemCategoryByIdAsync(int itemId, int categoryId)
         {
             if (itemId <= 0)
@@ -63,6 +63,33 @@ namespace DiShelved.Services
                 return null;
             }
             return itemCategory;
+        }
+
+        public async Task<IEnumerable<ItemCategory>> GetItemCategoriesByItemIdAsync(int itemId)
+        {
+            if (itemId <= 0)
+            {
+                throw new ArgumentException("Invalid Item Id", nameof(itemId));
+            }
+            var itemCategories = await _ItemCategoryRepository.GetItemCategoriesByItemIdAsync(itemId);
+            if (itemCategories == null || !itemCategories.Any())
+            {
+                return Enumerable.Empty<ItemCategory>();
+            }
+            return itemCategories;
+        }
+        public async Task<IEnumerable<ItemCategory>> GetItemCategoriesByCategoryIdAsync(int categoryId)
+        {
+            if (categoryId <= 0)
+            {
+                throw new ArgumentException("Invalid Category Id", nameof(categoryId));
+            }
+            var itemCategories = await _ItemCategoryRepository.GetItemCategoriesByCategoryIdAsync(categoryId);
+            if (itemCategories == null || !itemCategories.Any())
+            {
+                return Enumerable.Empty<ItemCategory>();
+            }
+            return itemCategories;
         }
 
         // public Task<ItemCategory> UpdateItemCategoryAsync(int itemId, int categoryId, ItemCategory itemCategory)

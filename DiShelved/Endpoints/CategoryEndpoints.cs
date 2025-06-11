@@ -17,6 +17,25 @@ public static class CategoryEndpoints
         .Produces<List<Category>>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
+        // Get Categories By User Uid
+        routes.MapGet("/Categories/UserUid/{uid}", async (string uid, ICategoryService repo) =>
+        {
+            try
+            {
+                var categories = await repo.GetCategoriesByUserUidAsync(uid);
+                // Always return 200 with a list (empty or not)
+                return Results.Ok(categories ?? new List<Category>());
+            }
+            catch (Exception ex)
+            {
+                // Log the exception as needed
+                return Results.Problem("An error occurred while fetching categories.");
+            }
+        })
+        .WithName("GetCategoriesByUserUid")
+        .Produces<List<Category>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status500InternalServerError);
+
         // Get Category By Id
         routes.MapGet("/Categories/{id}", async (int id, ICategoryService repo) =>
         {
@@ -47,14 +66,22 @@ public static class CategoryEndpoints
         .Produces(StatusCodes.Status404NotFound);
 
         // Delete Category
-        routes.MapDelete("/Categories/{id}", async (int id, ICategoryService repo) =>
+        routes.MapDelete("/Categories/{id}", async (int id, ICategoryService repo, IItemCategoryService itemCategoryService) =>
         {
+            // Check for associated items via ItemCategory
+            var itemCategories = await itemCategoryService.GetItemCategoriesByCategoryIdAsync(id);
+            if (itemCategories != null && itemCategories.Any())
+            {
+                return Results.BadRequest(new { message = "Category has Items associated with it. Remove any Items from this Category before deleting." });
+            }
+
             var deletion = await repo.DeleteCategoryAsync(id);
             return deletion ? Results.NoContent() : Results.NotFound();
             
         })
         .WithName("DeleteCategory")
         .Produces(StatusCodes.Status204NoContent)
-        .Produces(StatusCodes.Status404NotFound);
+        .Produces(StatusCodes.Status404NotFound)
+        .Produces(StatusCodes.Status400BadRequest);
     }
 }

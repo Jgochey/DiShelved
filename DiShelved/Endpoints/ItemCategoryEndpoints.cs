@@ -40,6 +40,26 @@ public static class ItemCategoryEndpoints
          .Produces<ItemCategory>(StatusCodes.Status200OK)
          .Produces(StatusCodes.Status404NotFound);
 
+        // Get ItemCategories By Item Id
+        routes.MapGet("/ItemCategory/Item/{itemId}", async (int itemId, IItemCategoryService repo) =>
+        {
+            var itemCategories = await repo.GetItemCategoriesByItemIdAsync(itemId);
+            return itemCategories is not null ? Results.Ok(itemCategories) : Results.NotFound();
+        })
+         .WithName("GetItemCategoriesByItemId")
+         .Produces<IEnumerable<ItemCategory>>(StatusCodes.Status200OK)
+         .Produces(StatusCodes.Status404NotFound);
+
+        // Get ItemCategories By Category Id
+        routes.MapGet("/ItemCategory/Category/{categoryId}", async (int categoryId, IItemCategoryService repo) =>
+        {
+            var itemCategories = await repo.GetItemCategoriesByCategoryIdAsync(categoryId);
+            return itemCategories is not null ? Results.Ok(itemCategories) : Results.NotFound();
+        })
+         .WithName("GetItemCategoriesByCategoryId")
+         .Produces<IEnumerable<ItemCategory>>(StatusCodes.Status200OK)
+         .Produces(StatusCodes.Status404NotFound);
+
         // Update ItemCategory
         // routes.MapPut("/ItemCategory/{itemId}/{categoryId}", async (int itemId, int categoryId, ItemCategory itemCategory, IItemCategoryService repo) =>
         // {

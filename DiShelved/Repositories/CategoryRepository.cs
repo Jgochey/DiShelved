@@ -14,16 +14,29 @@ namespace DiShelved.Repositories
         {
             if (userId <= 0)
             {
-                return (IEnumerable<Category>)Results.BadRequest("User Id not found");
+                return new List<Category>();
             }
             var categories = await _context.Categories
                 .Where(c => c.UserId == userId)
                 .ToListAsync();
-            if (categories == null || !categories.Any())
+            return categories ?? new List<Category>();
+        }
+
+        public async Task<IEnumerable<Category>> GetCategoriesByUserUidAsync(string uid)
+        {
+            if (string.IsNullOrEmpty(uid))
             {
-                return (IEnumerable<Category>)Results.BadRequest("Categories not found for this User Id");
+                return new List<Category>();
             }
-            return categories;
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Uid == uid);
+            if (user == null)
+            {
+                return new List<Category>();
+            }
+            var categories = await _context.Categories
+                .Where(c => c.UserId == user.Id)
+                .ToListAsync();
+            return categories ?? new List<Category>();
         }
         public async Task<Category> GetCategoryByIdAsync(int id)
         {
