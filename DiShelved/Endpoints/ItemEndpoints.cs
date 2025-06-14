@@ -55,17 +55,6 @@ public static class ItemEndpoints
         .Produces(StatusCodes.Status204NoContent)
         .Produces(StatusCodes.Status404NotFound);
 
-
-
-
-
-
-
-
-
-
-
-
         // Move Item DTO
         routes.MapPut("/Items/Move/{id}", async (int id, MoveItemDTO moveItemDTO, IItemService repo) =>
         {
@@ -78,36 +67,22 @@ public static class ItemEndpoints
             return movedItem is not null ? Results.Ok(movedItem) : Results.NotFound();
         });
 
-
-
-
-
         // Search Items
-        routes.MapGet("/Items/{userId}/Search/{query}", async (string query, int userId, IItemService repo) =>
+        routes.MapGet("/Items/{userId}/Search/{query}", async (
+            string query, 
+            int userId, 
+            IItemService itemService) =>
         {
-            List<Item> items = (await repo.GetItemsByUserIdAsync(userId)).ToList();
             if (userId <= 0)
-            {
                 return Results.BadRequest("Invalid User Id");
-            }
-
-            if (items is null || !items.Any())
-            {
-                return Results.NotFound("No Items Found");
-            }
 
             if (string.IsNullOrWhiteSpace(query))
-            {
                 return Results.BadRequest("Search query cannot be empty");
-            }
 
-            var results = items.Where(i => i.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                                i.Description.Contains(query, StringComparison.OrdinalIgnoreCase));
+            var results = await itemService.SearchItemsAsync(query, userId);
 
-            if (!results.Any())
-            {
+            if (results == null || !results.Any())
                 return Results.NotFound("No Items Found matching the search query");
-            }
 
             return Results.Ok(results);
         });

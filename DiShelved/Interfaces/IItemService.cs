@@ -1,4 +1,5 @@
 ﻿using DiShelved.Models;
+using DiShelved.DTOs;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DiShelved.Interfaces
@@ -14,5 +15,6 @@ namespace DiShelved.Interfaces
 
 
         Task<Item> MoveItemAsync(int id, int containerId);
-        Task<List<Item>> SearchItemsAsync(string searchTerm, int userId);}
+        Task<List<ItemWithCategoriesDTO>> SearchItemsAsync(string searchTerm, int userId);
+    }
 }

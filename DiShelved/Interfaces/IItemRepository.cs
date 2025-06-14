@@ -1,4 +1,5 @@
 ﻿using DiShelved.Models;
+using DiShelved.DTOs;
 
 namespace DiShelved.Interfaces
 {
@@ -13,6 +14,6 @@ namespace DiShelved.Interfaces
         Task<IEnumerable<Item>> GetItemsByContainerIdAsync(int containerId);
 
         Task<Item> MoveItemAsync(int id, int containerId);
-        Task<List<Item>> SearchItemsAsync(string searchTerm, int userId);
+        Task<List<ItemWithCategoriesDTO>> SearchItemsAsync(string searchTerm, int userId);
     }
 }

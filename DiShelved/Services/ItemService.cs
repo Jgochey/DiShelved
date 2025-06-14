@@ -1,5 +1,6 @@
 ﻿using DiShelved.Models;
 using DiShelved.Interfaces;
+using DiShelved.DTOs;
 using System.Security.Cryptography.X509Certificates;
 
 namespace DiShelved.Services
@@ -136,7 +137,7 @@ namespace DiShelved.Services
         }
 
         // Search Items
-        public async Task<List<Item>> SearchItemsAsync(string searchTerm, int userId)
+        public async Task<List<ItemWithCategoriesDTO>> SearchItemsAsync(string searchTerm, int userId)
         {
             if (string.IsNullOrWhiteSpace(searchTerm))
             {
