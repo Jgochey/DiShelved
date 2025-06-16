@@ -107,10 +107,10 @@ Here are the main routes of the API:
 
 ## 📄 Documentation
 
-[View the DiShelved Postman Documentation to learn more about the Endpoints above.](https://documenter.getpostman.com/view/36639418/2sB2qfAzEy?authuser=0)
-[See a 1-minute overview of the API Endpoints on Postman.](https://www.loom.com/share/79097f102a1649b9bdb03ba98acacd0d?sid=e7871ba8-5b4d-4055-aba6-9aef7b6e0ec7)
-[See the ERD on dbdiagram to understand the relationships between entities.](https://dbdiagram.io/d/DiShelved-68227fd95b2fc4582f4a2b7a)
-[View the DiShelved Project board for progress on the latest updates.](https://github.com/users/Jgochey/projects/11)
+- [View the DiShelved Postman Documentation to learn more about the Endpoints above.](https://documenter.getpostman.com/view/36639418/2sB2qfAzEy?authuser=0)
+- [See a 1-minute overview of the API Endpoints on Postman.](https://www.loom.com/share/79097f102a1649b9bdb03ba98acacd0d?sid=e7871ba8-5b4d-4055-aba6-9aef7b6e0ec7)
+- [See the ERD on dbdiagram to understand the relationships between entities.](https://dbdiagram.io/d/DiShelved-68227fd95b2fc4582f4a2b7a)
+- [View the DiShelved Project board for progress on the latest updates.](https://github.com/users/Jgochey/projects/11)
 
 ---
 
