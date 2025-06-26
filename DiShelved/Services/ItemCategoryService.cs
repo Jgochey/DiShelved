@@ -91,11 +91,5 @@ namespace DiShelved.Services
             }
             return itemCategories;
         }
-
-        // public Task<ItemCategory> UpdateItemCategoryAsync(int itemId, int categoryId, ItemCategory itemCategory)
-        // {
-        //   throw new NotImplementedException();
-        // }
-
     }
 }

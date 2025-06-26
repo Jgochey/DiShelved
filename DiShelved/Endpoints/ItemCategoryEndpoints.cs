@@ -59,12 +59,5 @@ public static class ItemCategoryEndpoints
          .WithName("GetItemCategoriesByCategoryId")
          .Produces<IEnumerable<ItemCategory>>(StatusCodes.Status200OK)
          .Produces(StatusCodes.Status404NotFound);
-
-        // Update ItemCategory
-        // routes.MapPut("/ItemCategory/{itemId}/{categoryId}", async (int itemId, int categoryId, ItemCategory itemCategory, IItemCategoryService repo) =>
-        // {
-        //     var updatedItemCategory = await repo.UpdateItemCategoryAsync(itemId, categoryId, itemCategory);
-        //     return updatedItemCategory is not null ? Results.Ok(updatedItemCategory) : Results.NotFound();
-        // });
     }
 }

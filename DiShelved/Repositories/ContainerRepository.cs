@@ -74,14 +74,14 @@ namespace DiShelved.Repositories
             return true;
         }
 
-    public Task<IEnumerable<Container>> GetContainersByLocationIdAsync(int locationId)
-    {
-        if (locationId <= 0)
+        public Task<IEnumerable<Container>> GetContainersByLocationIdAsync(int locationId)
         {
-            return Task.FromResult<IEnumerable<Container>>(new List<Container>());
+            if (locationId <= 0)
+            {
+                return Task.FromResult<IEnumerable<Container>>(new List<Container>());
+            }
+            var containers = _context.Containers.Where(c => c.LocationId == locationId);
+            return Task.FromResult<IEnumerable<Container>>(containers.ToList());
         }
-        var containers = _context.Containers.Where(c => c.LocationId == locationId);
-        return Task.FromResult<IEnumerable<Container>>(containers.ToList());
-  }
-}
+    }
 }

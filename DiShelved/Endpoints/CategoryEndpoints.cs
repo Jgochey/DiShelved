@@ -28,7 +28,6 @@ public static class CategoryEndpoints
             }
             catch (Exception ex)
             {
-                // Log the exception as needed
                 return Results.Problem("An error occurred while fetching categories.");
             }
         })

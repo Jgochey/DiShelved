@@ -12,8 +12,6 @@ namespace DiShelved.Interfaces
         Task<Item> UpdateItemAsync(int Id, Item Item);
         Task<bool> DeleteItemAsync(int id);
         Task<IEnumerable<Item>> GetItemsByContainerIdAsync(int containerId);
-
-
         Task<Item> MoveItemAsync(int id, int containerId);
         Task<List<ItemWithCategoriesDTO>> SearchItemsAsync(string searchTerm, int userId);
     }

@@ -12,7 +12,7 @@ namespace DiShelved.Services
         {
             if (id <= 0)
             {
-            throw new ArgumentException("Invalid Category Id", nameof(id));
+                throw new ArgumentException("Invalid Category Id", nameof(id));
             }
             var Category = await _CategoryRepository.GetCategoryByIdAsync(id);
             if (Category == null)

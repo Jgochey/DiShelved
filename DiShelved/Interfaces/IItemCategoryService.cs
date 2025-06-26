@@ -12,7 +12,5 @@ namespace DiShelved.Interfaces
 
     Task<IEnumerable<ItemCategory>> GetItemCategoriesByItemIdAsync(int itemId);
     Task<IEnumerable<ItemCategory>> GetItemCategoriesByCategoryIdAsync(int categoryId);
-
-    // Task<ItemCategory> UpdateItemCategoryAsync(int itemId, int categoryId, ItemCategory itemCategory);
   }
 }

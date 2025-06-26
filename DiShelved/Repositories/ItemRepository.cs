@@ -86,15 +86,6 @@ namespace DiShelved.Repositories
             return _context.Items.Where(i => i.ContainerId == containerId).ToListAsync().ContinueWith(task => (IEnumerable<Item>)task.Result);
         }
 
-
-
-
-
-
-
-
-
-
         // MoveItemDto
         public async Task<Item> MoveItemAsync(int id, int containerId)
         {
@@ -135,7 +126,7 @@ namespace DiShelved.Repositories
                 .Select(ic => ic.ItemId)
                 .ToListAsync();
 
-            // Find Items by name, description, or category match (case-insensitive)
+            // Find Items by name, description, or category (case-insensitive)
             var items = await _context.Items
                 .Where(i => i.UserId == userId &&
                     (i.Name.ToLower().Contains(searchTerm) ||

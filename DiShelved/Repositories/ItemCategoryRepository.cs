@@ -51,16 +51,6 @@ namespace DiShelved.Repositories
                 .Where(ic => ic.CategoryId == categoryId)
                 .ToListAsync();
         }
-        
-        // public async Task<ItemCategory> UpdateItemCategoryAsync(int id, ItemCategory ItemCategory)
-        // {
-        //     if (id != ItemCategory.Id)
-        //     {
-        //         throw new ArgumentException("ItemCategory Id mismatch");
-        //     }
-        //     _context.Entry(ItemCategory).State = EntityState.Modified;
-        //     await _context.SaveChangesAsync();
-        //     return ItemCategory;
-        // }
+
     }
 }
