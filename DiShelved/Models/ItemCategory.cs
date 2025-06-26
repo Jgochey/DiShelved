@@ -8,5 +8,9 @@ public class ItemCategory
 {
     public int ItemId { get; set; }
     public int CategoryId { get; set; }
-    public (int ItemId, int CategoryId) CompositeKey => (ItemId, CategoryId);    
+    public (int ItemId, int CategoryId) CompositeKey => (ItemId, CategoryId);
+
+    // Navigation properties
+    public Item Item { get; set; }
+    public Category Category { get; set; }   
 }

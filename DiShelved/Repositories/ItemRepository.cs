@@ -2,6 +2,7 @@
 using DiShelved.Models;
 using DiShelved.Interfaces;
 using DiShelved.Data;
+using DiShelved.DTOs;
 
 namespace DiShelved.Repositories
 {
@@ -83,6 +84,73 @@ namespace DiShelved.Repositories
                 return Task.FromResult<IEnumerable<Item>>(new List<Item>());
             }
             return _context.Items.Where(i => i.ContainerId == containerId).ToListAsync().ContinueWith(task => (IEnumerable<Item>)task.Result);
+        }
+
+        // MoveItemDto
+        public async Task<Item> MoveItemAsync(int id, int containerId)
+        {
+            if (id <= 0)
+            {
+                return (Item)Results.BadRequest("Invalid Item Id");
+            }
+            if (containerId <= 0)
+            {
+                return (Item)Results.BadRequest("Invalid Container Id");
+            }
+
+            var item = await _context.Items.FindAsync(id);
+            if (item == null)
+            {
+                return (Item)Results.BadRequest("Item not found");
+            }
+
+            item.ContainerId = containerId;
+            _context.Items.Update(item);
+            await _context.SaveChangesAsync();
+            return item;
+        }
+
+        // Search Items
+        public async Task<List<ItemWithCategoriesDTO>> SearchItemsAsync(string searchTerm, int userId)
+        {
+            if (userId <= 0 || string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return new List<ItemWithCategoriesDTO>();
+            }
+
+            searchTerm = searchTerm.ToLower();
+
+            // Find ItemIds by Category name (case-insensitive)
+            var categoryItemIds = await _context.ItemCategories
+                .Where(ic => ic.Item.UserId == userId && ic.Category.Name.ToLower().Contains(searchTerm))
+                .Select(ic => ic.ItemId)
+                .ToListAsync();
+
+            // Find Items by name, description, or category (case-insensitive)
+            var items = await _context.Items
+                .Where(i => i.UserId == userId &&
+                    (i.Name.ToLower().Contains(searchTerm) ||
+                     i.Description.ToLower().Contains(searchTerm) ||
+                     categoryItemIds.Contains(i.Id)))
+                .ToListAsync();
+
+            var itemIds = items.Select(i => i.Id).ToList();
+
+            var itemCategories = await _context.ItemCategories
+                .Where(ic => itemIds.Contains(ic.ItemId))
+                .Include(ic => ic.Category)
+                .ToListAsync();
+
+            var result = items.Select(item => new ItemWithCategoriesDTO
+            {
+                Item = item,
+                Categories = itemCategories
+                    .Where(ic => ic.ItemId == item.Id)
+                    .Select(ic => ic.Category)
+                    .ToList()
+            }).ToList();
+
+            return result;
         }
     }
 }

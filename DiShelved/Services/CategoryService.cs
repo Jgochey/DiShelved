@@ -12,7 +12,7 @@ namespace DiShelved.Services
         {
             if (id <= 0)
             {
-            throw new ArgumentException("Invalid Category Id", nameof(id));
+                throw new ArgumentException("Invalid Category Id", nameof(id));
             }
             var Category = await _CategoryRepository.GetCategoryByIdAsync(id);
             if (Category == null)
@@ -29,12 +29,21 @@ namespace DiShelved.Services
                 throw new ArgumentException("Invalid User Id", nameof(userId));
             }
             var categories = await _CategoryRepository.GetCategoriesByUserIdAsync(userId);
-            if (categories == null || !categories.Any())
-            {
-                throw new InvalidOperationException("No Categories Found for this User Id");
-            }
-            return categories;
+            // Return an empty list if the user has no categories
+            return categories ?? new List<Category>();
         }
+
+        public async Task<IEnumerable<Category>> GetCategoriesByUserUidAsync(string uid)
+        {
+            if (string.IsNullOrEmpty(uid))
+            {
+                throw new ArgumentException("Invalid User Uid", nameof(uid));
+            }
+            var categories = await _CategoryRepository.GetCategoriesByUserUidAsync(uid);
+            // Return an empty list if the user has no categories
+            return categories ?? new List<Category>();
+        }
+
         public async Task<Category> CreateCategoryAsync(Category Category)
         {
             if (Category == null)

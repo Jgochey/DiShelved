@@ -19,9 +19,8 @@ namespace DiShelved.Services
             var existingUser = await _userRepository.GetUserByUidAsync(User.Uid);
             if (existingUser != null)
             {
-                // Return the existing user if it already exists
+                // Return the user if it already exists
                 return existingUser;
-
             }
 
             var createdUser = await _userRepository.CreateUserAsync(User);

@@ -53,7 +53,7 @@ public static class ContainerEndpoints
             var items = await itemService.GetItemsByContainerIdAsync(id);
             if (items.Any())
             {
-                return Results.Problem("Container has Items associated with it. Remove any Items before deleting the Container.");
+                return Results.BadRequest(new { message = "Container has Items associated with it. Remove any Items before deleting the Container." });
             }
 
             var deletion = await repo.DeleteContainerAsync(id);
@@ -68,7 +68,7 @@ public static class ContainerEndpoints
         routes.MapGet("/Containers/Location/{locationId}", async (int locationId, IContainerService repo) =>
         {
             var containers = await repo.GetContainersByLocationIdAsync(locationId);
-            return containers is not null ? Results.Ok(containers) : Results.NotFound();
+            return containers is not null ? Results.Ok(containers) : Results.Ok(new List<Container>());
         })
         .WithName("GetContainersByLocationId")
         .Produces<List<Container>>(StatusCodes.Status200OK)

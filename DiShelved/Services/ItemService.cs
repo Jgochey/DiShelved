@@ -1,5 +1,6 @@
 ﻿using DiShelved.Models;
 using DiShelved.Interfaces;
+using DiShelved.DTOs;
 using System.Security.Cryptography.X509Certificates;
 
 namespace DiShelved.Services
@@ -91,6 +92,58 @@ namespace DiShelved.Services
             var items = await _ItemRepository.GetItemsByContainerIdAsync(containerId);
 
             return items ?? Enumerable.Empty<Item>();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // MoveItemDto
+        public async Task<Item> MoveItemAsync(int id, int containerId)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException("Invalid Item Id", nameof(id));
+            }
+            if (containerId <= 0)
+            {
+                throw new ArgumentException("Invalid Container Id", nameof(containerId));
+            }
+
+            var item = await _ItemRepository.GetItemByIdAsync(id);
+            if (item == null)
+            {
+                throw new InvalidOperationException("Item not found");
+            }
+
+            item.ContainerId = containerId;
+            var updatedItem = await _ItemRepository.UpdateItemAsync(item.Id, item);
+            if (updatedItem == null)
+            {
+                throw new InvalidOperationException("Item could not be moved");
+            }
+
+            return updatedItem;
+        }
+
+        // Search Items
+        public async Task<List<ItemWithCategoriesDTO>> SearchItemsAsync(string searchTerm, int userId)
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                throw new ArgumentException("Invalid search term", nameof(searchTerm));
+            }
+            return await _ItemRepository.SearchItemsAsync(searchTerm, userId);
         }
     }
 }

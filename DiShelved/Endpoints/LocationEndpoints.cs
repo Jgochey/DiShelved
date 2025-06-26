@@ -54,15 +54,12 @@ public static class LocationEndpoints
         .Produces(StatusCodes.Status404NotFound);
 
         // Delete Location
-        routes.MapDelete("/Locations/{id}", async (
-            int id, 
-            ILocationService locationService, 
-            IContainerService containerService) =>
+        routes.MapDelete("/Locations/{id}", async (int id, ILocationService locationService, IContainerService containerService) =>
         {
             var containers = await containerService.GetContainersByLocationIdAsync(id);
             if (containers.Any())
             {
-                return Results.Problem("Location has Containers associated with it. Remove any Containers before deleting the Location.");
+                return Results.BadRequest(new { message = "Location has Containers associated with it. Remove any Containers before deleting the Location." });
             }
 
             var deletion = await locationService.DeleteLocationAsync(id);

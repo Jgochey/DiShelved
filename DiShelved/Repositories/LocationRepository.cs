@@ -70,7 +70,6 @@ namespace DiShelved.Repositories
             var existingLocation = await _context.Locations.FindAsync(id);
             if (existingLocation == null)
             {
-                // Throw an exception or return null
                 return null;
             }
 

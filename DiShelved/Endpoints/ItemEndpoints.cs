@@ -1,5 +1,6 @@
 ﻿using DiShelved.Interfaces;
 using DiShelved.Models;
+using DiShelved.DTOs;
 
 namespace DiShelved.Endpoints;
 
@@ -27,7 +28,7 @@ public static class ItemEndpoints
         // Create Item
         routes.MapPost("/Items", async (Item Item, IItemService repo) =>
         {
-            var createdItem = await repo.CreateItemAsync(Item); 
+            var createdItem = await repo.CreateItemAsync(Item);
             return Results.Created($"/api/Items/{createdItem.Id}", createdItem);
         })
         .WithName("CreateItem")
@@ -48,10 +49,54 @@ public static class ItemEndpoints
         {
             var deletion = await repo.DeleteItemAsync(id);
             return deletion ? Results.NoContent() : Results.NotFound();
-            
+
         })
         .WithName("DeleteItem")
         .Produces(StatusCodes.Status204NoContent)
         .Produces(StatusCodes.Status404NotFound);
+
+        // Move Item DTO
+        routes.MapPut("/Items/Move/{id}", async (int id, MoveItemDTO moveItemDTO, IItemService repo) =>
+        {
+            if (moveItemDTO.ContainerId <= 0)
+            {
+                return Results.BadRequest("Invalid Container Id");
+            }
+
+            var movedItem = await repo.MoveItemAsync(id, moveItemDTO.ContainerId);
+            return movedItem is not null ? Results.Ok(movedItem) : Results.NotFound();
+        });
+
+        // Search Items
+        routes.MapGet("/Items/{userId}/Search/{query}", async (
+            string query, 
+            int userId, 
+            IItemService itemService) =>
+        {
+            if (userId <= 0)
+                return Results.BadRequest("Invalid User Id");
+
+            if (string.IsNullOrWhiteSpace(query))
+                return Results.BadRequest("Search query cannot be empty");
+
+            var results = await itemService.SearchItemsAsync(query, userId);
+
+            if (results == null || !results.Any())
+                return Results.NotFound("No Items Found matching the search query");
+
+            return Results.Ok(results);
+        });
+        
+        // Get Items By Container Id
+        routes.MapGet("/Items/Container/{containerId}", async (int containerId, IItemService repo) =>
+        {
+            if (containerId <= 0)
+            {
+                return Results.BadRequest("Invalid Container Id");
+            }
+
+            var items = await repo.GetItemsByContainerIdAsync(containerId);
+            return items is not null ? Results.Ok(items) : Results.NotFound();
+        });
     }
 }
