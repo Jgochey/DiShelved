@@ -17,9 +17,21 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
-            .AllowAnyMethod()
-            .AllowAnyHeader();
+        if (builder.Environment.IsDevelopment())
+        {
+            policy.WithOrigins("http://localhost:3000")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+        }
+        else
+        {
+            // Production CORS - only allow your Netlify frontend
+            policy.WithOrigins("https://dishelved.netlify.app")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+        }
     });
 });
 
@@ -37,7 +49,12 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddDbContext<DiShelvedDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DiShelvedDbConnectionString")));
+{
+    // Use DATABASE_URL if available (Render), otherwise use connection string
+    var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") 
+        ?? builder.Configuration.GetConnectionString("DiShelvedDbConnectionString");
+    options.UseNpgsql(connectionString);
+});
 
 builder.Services.Configure<JsonOptions>(options =>
 {
@@ -53,7 +70,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
-app.UseHttpsRedirection();
+
+// Only use HTTPS redirection in development
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.MapCategoryEndpoints();
 app.MapContainerEndpoints();
