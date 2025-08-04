@@ -17,8 +17,14 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
+        // Add logging to see which environment we're in
+        var environment = builder.Environment.EnvironmentName;
+        Console.WriteLine($"Environment: {environment}");
+        Console.WriteLine($"IsDevelopment: {builder.Environment.IsDevelopment()}");
+        
         if (builder.Environment.IsDevelopment())
         {
+            Console.WriteLine("Configuring CORS for Development");
             policy.WithOrigins("http://localhost:3000")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -26,8 +32,12 @@ builder.Services.AddCors(options =>
         }
         else
         {
-            // Production CORS - only allow your Netlify frontend
-            policy.WithOrigins("https://dishelved.netlify.app")
+            Console.WriteLine("Configuring CORS for Production");
+            // Production CORS - be more explicit and add fallbacks
+            policy.WithOrigins(
+                    "https://dishelved.netlify.app",
+                    "https://dishelved.onrender.com" // Also allow your backend domain for testing
+                )
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials();
@@ -63,12 +73,22 @@ builder.Services.Configure<JsonOptions>(options =>
 
 var app = builder.Build();
 
+// Add CORS before other middleware and add logging
+app.Use(async (context, next) =>
+{
+    Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
+    Console.WriteLine($"Origin: {context.Request.Headers.Origin}");
+    await next();
+    Console.WriteLine($"Response Status: {context.Response.StatusCode}");
+});
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+// Move CORS before HTTPS redirection
 app.UseCors();
 
 // Only use HTTPS redirection in development
