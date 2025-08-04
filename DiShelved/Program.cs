@@ -143,9 +143,13 @@ static string GetConnectionString(IConfiguration configuration)
             var username = userInfo[0];
             var password = userInfo.Length > 1 ? userInfo[1] : "";
             
-            var connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.LocalPath.TrimStart('/')};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+            // Handle default PostgreSQL port when not specified
+            var port = uri.Port == -1 ? 5432 : uri.Port;
+            
+            var connectionString = $"Host={uri.Host};Port={port};Database={uri.LocalPath.TrimStart('/')};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
             
             Console.WriteLine($"Converted connection string format successfully");
+            Console.WriteLine($"Host: {uri.Host}, Port: {port}, Database: {uri.LocalPath.TrimStart('/')}");
             return connectionString;
         }
         catch (Exception ex)
@@ -158,5 +162,5 @@ static string GetConnectionString(IConfiguration configuration)
     // Fallback to appsettings.json connection string (for local development)
     var fallbackConnectionString = configuration.GetConnectionString("DiShelvedDbConnectionString");
     Console.WriteLine("Using fallback connection string from appsettings.json");
-    return fallbackConnectionString;
+    return fallbackConnectionString ?? throw new InvalidOperationException("No database connection string found");
 }
