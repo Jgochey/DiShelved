@@ -36,7 +36,7 @@ builder.Services.AddCors(options =>
             // Production CORS - be more explicit and add fallbacks
             policy.WithOrigins(
                     "https://dishelved.netlify.app",
-                    "dishelved-db.cpoocewas2lu.us-east-2.rds.amazonaws.com"
+                    "dishelved-db.cpoocewas2lu.us-east-2.rds.amazonaws.com" // Add EC2
                 )
                 .AllowAnyMethod()
                 .AllowAnyHeader()
