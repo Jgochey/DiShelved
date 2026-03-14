@@ -26,7 +26,7 @@ public static class CategoryEndpoints
                 // Always return 200 with a list (empty or not)
                 return Results.Ok(categories ?? new List<Category>());
             }
-            catch (Exception ex)
+            catch
             {
                 return Results.Problem("An error occurred while fetching categories.");
             }
