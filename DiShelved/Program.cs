@@ -36,7 +36,7 @@ builder.Services.AddCors(options =>
             // Production CORS - be more explicit and add fallbacks
             policy.WithOrigins(
                     "https://dishelved.netlify.app",
-                    "https://dishelved.onrender.com" // Also allow your backend domain for testing
+                    "dishelved-db.cpoocewas2lu.us-east-2.rds.amazonaws.com"
                 )
                 .AllowAnyMethod()
                 .AllowAnyHeader()
