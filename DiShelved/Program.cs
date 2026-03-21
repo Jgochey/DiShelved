@@ -36,7 +36,9 @@ builder.Services.AddCors(options =>
             // Production CORS - be more explicit and add fallbacks
             policy.WithOrigins(
                     "https://dishelved.netlify.app",
-                    "dishelved-db.cpoocewas2lu.us-east-2.rds.amazonaws.com" // Add EC2
+                    "https://d392wajczib7rj.cloudfront.net", // CloudFront HTTPS endpoint
+                    "http://localhost:3000", // For local testing
+                    "http://18.220.187.102" // EC2 backend public IP
                 )
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -89,6 +91,18 @@ if (app.Environment.IsDevelopment())
 
 // Move CORS before HTTPS redirection
 app.UseCors();
+
+// Handle OPTIONS requests explicitly for CORS preflight
+app.Use(async (context, next) =>
+{
+    if (context.Request.Method == "OPTIONS")
+    {
+        context.Response.StatusCode = 200;
+        await context.Response.CompleteAsync();
+        return;
+    }
+    await next();
+});
 
 // Only use HTTPS redirection in development
 if (app.Environment.IsDevelopment())
