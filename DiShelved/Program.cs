@@ -36,7 +36,7 @@ builder.Services.AddCors(options =>
             // Production CORS - be more explicit and add fallbacks
             policy.WithOrigins(
                     "https://dishelved.netlify.app",
-                    "https://d392wajczib7rj.cloudfront.net", // CloudFront HTTPS endpoint
+                    "https://dsue40kei3lbj.cloudfront.net", // CloudFront HTTPS endpoint
                     "http://localhost:3000", // For local testing
                     "http://18.220.187.102" // EC2 backend public IP
                 )
